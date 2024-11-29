@@ -18,7 +18,7 @@
             <div class="flex justify-between mb-3 items-center">
                 <h1 class="font-bold">Certificate List</h1>
                 <a href="{{ route('certificates.create') }}"
-                    class="ml-auto px-4  bg-primary py-2 text-white rounded-md">Create </a>
+                    class="ml-auto px-4 bg-black text-white py-2 rounded-md">Create </a>
             </div>
             @if ($certificates->isEmpty())
                 <div class="text-center py-4">
@@ -48,9 +48,16 @@
                                     <a class="font-medium text-blue-600 hover:text-blue-800"
                                         href="{{ route('certificates.show', $certificate->certificate_number) }}">View</a>
 
-                                        <a class="font-medium text-green-600 hover:text-green-800"
+                                    <a class="font-medium text-green-600 hover:text-green-800"
                                             href="{{ route('certificates.downloadQr', $certificate->certificate_number) }}">Unduh</a>
-                                        </tr>
+                                    <form action="{{ route('certificates.destroy', $certificate->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="font-medium text-red-600 hover:text-red-800">
+                                            Hapus
+                                        </button>
+                                    </form>
                                 </td>
                         @endforeach
                     </tbody>

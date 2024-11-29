@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Certificate;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CertificateController extends Controller
 {
@@ -108,21 +109,31 @@ class CertificateController extends Controller
     //       return view('certificates.show', compact('certificate', 'qrCode'));
     //   }
 
-public function downloadQrCode($certificateNumber)
-{
-    $certificate = Certificate::where('certificate_number', $certificateNumber)->firstOrFail();
+    public function downloadQrCode($certificateNumber)
+    {
+        $certificate = Certificate::where('certificate_number', $certificateNumber)->firstOrFail();
 
-    // Path to QR Code
-    $filePath = public_path($certificate->qr_code_path);
+        // Path to QR Code
+        $filePath = public_path($certificate->qr_code_path);
 
-    // Check if file exists
-    if (!file_exists($filePath)) {
-        abort(404, 'QR Code not found.');
+        // Check if file exists
+        if (!file_exists($filePath)) {
+            abort(404, 'QR Code not found.');
+        }
+
+        // Return file download response
+        return response()->download($filePath, $certificate->certificate_number . '-qr-code.png');
+    }
+    public function destroy($id)
+    {
+        Certificate::findOrFail($id)->delete();
+
+        $lastId = Certificate::max('id'); // Cari ID maksimum yang tersisa
+        DB::statement('ALTER TABLE certificates AUTO_INCREMENT = ' . ($lastId + 1));
+
+        return redirect()->route('certificates.index')->with('success', 'Data berhasil dihapus dan ID telah direset.');
     }
 
-    // Return file download response
-    return response()->download($filePath, $certificate->certificate_number . '-qr-code.png');
-}
 
     
 }
