@@ -26,7 +26,7 @@ class CertificateController extends Controller
 {
     $request->validate([
         'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:certificates',
+        'email' => 'required|email',
         'photo_profile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'position' => 'required|string|max:255',
     ]);
