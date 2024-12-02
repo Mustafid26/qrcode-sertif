@@ -40,10 +40,12 @@
                             <tr class="border-b border-blue-gray-200">
                                 <td class="py-3 px-4">{{ $certificate->name }}</td>
                                 <td class="py-3 px-4">{{ $certificate->email }}</td>
-                                <td class="py-3 px-4"><img src="{{ asset($certificate->photo_profile) }}" alt="Photo Profile"
-                                        width="100"></td>
-                                <td class="py-3 px-4"><img src="{{ asset($certificate->qr_code_path) }}" alt="QR Code"
-                                        width="100"></td>
+                                <td class="py-3 px-4">
+                                    <img src="{{ asset('storage/' . $certificate->photo_profile) }}" alt="Photo Profile" width="100">
+                                </td>
+                                <td class="py-3 px-4">
+                                    <img src="{{ asset($certificate->qr_code_path) }}" alt="QR Code" width="100">    
+                                </td>
                                 <td class="py-3 px-4">
                                     <a class="font-medium text-blue-600 hover:text-blue-800"
                                         href="{{ route('certificates.show', $certificate->certificate_number) }}">View</a>
