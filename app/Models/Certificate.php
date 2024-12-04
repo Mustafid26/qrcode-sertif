@@ -9,5 +9,12 @@ class Certificate extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'position', 'photo_profile', 'certificate_number', 'qr_code_path'];
+    protected $fillable = ['name', 'email', 'position', 'photo_profile', 'certificate_number', 'qr_code_path', 'certificate_number'];
+
+    public function participant()
+    {
+        return $this->hasOne(Participant::class, 'certificate_id');
+    }
+
+
 }

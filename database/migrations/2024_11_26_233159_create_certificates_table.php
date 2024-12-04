@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('email');
             $table->string('photo_profile');    
             $table->string('position');
-            $table->string('certificate_number');
-            $table->string('qr_code_path');
+            $table->string('certificate_number')->nullable();
+            $table->string('qr_code_path')->nullable();
             $table->timestamps();
         });
     }

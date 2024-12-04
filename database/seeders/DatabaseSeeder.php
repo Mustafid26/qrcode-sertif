@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // $this->call(CertificateSeeder::class);
         User::create([
             'name' => 'HMTI',
             'email' => 'hmti@gmail.com',

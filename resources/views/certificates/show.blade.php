@@ -4,7 +4,7 @@
 <div class="flex justify-center items-center min-h-screen p-4">
     <div class="bg-white shadow-md rounded-lg p-6 text-center w-full max-w-lg">
         <!-- Nomor Sertifikat -->
-        <p class="text-sm font-medium text-gray-500 tracking-widest mb-4">Nomor Sertifikat: {{ str_replace('-', '/', $certificate->certificate_number) }}</p>
+        <p class="text-sm font-medium text-gray-500 tracking-widest mb-4">Nomor Sertifikat: {{ str_replace('-', '/', $participant->certificate_number) }}</p>
 
         <div class="flex flex-row sm:flex-row justify-center items-center gap-2 mb-4">
             <img src="{{ asset('images/logo_dinus_new.png') }}" alt="Logo Dinus" class="w-24 h-24">
@@ -14,11 +14,11 @@
 
         <!-- Foto Profil -->
         <div class="flex justify-center mb-4">
-            <img src="{{ asset('storage/' . $certificate->photo_profile) }}" alt="Photo Profile" class="w-36 h-36 rounded-full border-4 border-yellow-500 object-cover">
+            <img src="{{ asset('storage/' . $participant->certificate->photo_profile) }}" alt="Photo Profile" class="w-36 h-36 rounded-full border-4 border-yellow-500 object-cover">
         </div>        
 
         <!-- Nama -->
-        <h2 class="text-xl font-extrabold text-gray-800">{{ $certificate->name }}</h2>
+        <h2 class="text-xl font-extrabold text-gray-800">{{ $participant->certificate->name }}</h2>
         <p class="text-sm font-medium text-gray-500 tracking-widest mb-4">PENANDATANGAN</p>
 
         <!-- Judul -->

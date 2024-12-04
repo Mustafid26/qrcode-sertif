@@ -15,10 +15,11 @@
     <!-- component -->
     <div class="flex min-h-screen items-center justify-center w-full">
         <div class="overflow-x-auto">
+            <h1 class="font-bold">Certificate List</h1>
             <div class="flex justify-between mb-3 items-center">
-                <h1 class="font-bold">Certificate List</h1>
                 <a href="{{ route('certificates.create') }}"
                     class="ml-auto px-4 bg-black text-white py-2 rounded-md">Create </a>
+                <a href="{{ route('participants.index') }}" class="ml-2 px-4 bg-blue-500 text-white py-2 rounded-md">Participants</a>
             </div>
             @if ($certificates->isEmpty())
                 <div class="text-center py-4">
@@ -62,6 +63,11 @@
                                     </form>
                                 </td>
                         @endforeach
+                        <tr>
+                            <td colspan="5" class="py-3 px-4">
+                                {{ $certificates->links() }}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             @endif
