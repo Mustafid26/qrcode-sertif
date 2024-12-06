@@ -77,21 +77,21 @@ class CertificateController extends Controller
 
 
 
-    public function downloadQrCode($certificateNumber)
-    {
-        $certificate = Certificate::where('certificate_number', $certificateNumber)->firstOrFail();
+    // public function downloadQrCode($certificateNumber)
+    // {
+    //     $certificate = Certificate::where('certificate_number', $certificateNumber)->firstOrFail();
 
-        // Path to QR Code
-        $filePath = public_path($certificate->qr_code_path);
+    //     // Path to QR Code
+    //     $filePath = public_path($certificate->qr_code_path);
 
-        // Check if file exists
-        if (!file_exists($filePath)) {
-            abort(404, 'QR Code not found.');
-        }
+    //     // Check if file exists
+    //     if (!file_exists($filePath)) {
+    //         abort(404, 'QR Code not found.');
+    //     }
 
-        // Return file download response
-        return response()->download($filePath, $certificate->certificate_number . '-qr-code.png');
-    }
+    //     // Return file download response
+    //     return response()->download($filePath, $certificate->certificate_number . '-qr-code.png');
+    // }
 
 
     public function destroy($id)
@@ -103,4 +103,6 @@ class CertificateController extends Controller
 
         return redirect()->route('certificates.index')->with('success', 'Data berhasil dihapus dan ID telah direset.');
     }
+
+    
 }

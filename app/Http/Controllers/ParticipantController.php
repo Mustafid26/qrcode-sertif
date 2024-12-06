@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Certificate;
 use App\Models\Participant;
 use Illuminate\Http\Request;
+// use Maatwebsite\Excel\Excel;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Exports\ParticipantsExport;
+use App\Imports\ParticipantsImport;
+use Excel;
 
 class ParticipantController extends Controller
 {
@@ -64,14 +68,28 @@ class ParticipantController extends Controller
     }
 
     // Menampilkan daftar participants
-    public function index()
+    public function index(Request $request)
     {
-    // Mengambil semua participant dengan sertifikat yang terkait
-        $participants = Participant::with('certificate')->get();
-        // dd($participants->toArray());
+        // Mendapatkan input pencarian
+        $search = $request->get('search');
+
+        // Menambahkan pencarian pada query dan menggunakan paginate
+        $participants = Participant::with('certificate')
+            ->when($search, function ($query) use ($search) {
+                // Pencarian berdasarkan nama, email, atau posisi
+                return $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->paginate(5);  // Menampilkan 5 peserta per halaman
+
         return view('participants.index', compact('participants'));
     }
 
+
+    public function show($id)
+    {
+        $participant = Participant::with('certificate')->findOrFail($id);
+        return view('participants.show', compact('participant'));
+    }
 
 
     // Menampilkan form untuk edit participant
@@ -107,5 +125,43 @@ class ParticipantController extends Controller
         $participant->delete();
         return redirect()->route('participants.index')->with('success', 'Participant deleted successfully!');
     }
+
+
+    public function import(Request $request)
+    {
+           // Validasi file yang diupload
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv',  // Tentukan jenis file yang boleh diupload
+        ]);
+    
+        // Menggunakan instance dari Excel untuk melakukan import
+        $file = $request->file('file'); // Ambil file yang diupload
+    
+        Excel::import(new ParticipantsImport, $file);  // Memanggil metode import pada instance Excel
+    
+        return redirect()->route('participants.index')->with('success', 'Participants imported  successfully!');
+    }
+
+
+    public function downloadAllQr()
+    {
+        $participants = Participant::all();
+        $zip = new \ZipArchive();
+        $zipFileName = 'qrcodes.zip';
+
+        if ($zip->open(public_path($zipFileName), \ZipArchive::CREATE) === TRUE) {
+            foreach ($participants as $participant) {
+            $filePath = public_path($participant->qr_code_path);
+            if (file_exists($filePath)) {
+                $zip->addFile($filePath, basename($filePath));
+            }
+            }
+            $zip->close();
+        }
+
+        return response()->download(public_path($zipFileName))->deleteFileAfterSend(true);
+    }
+
+
 }
 

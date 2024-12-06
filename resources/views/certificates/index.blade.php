@@ -15,7 +15,7 @@
     <!-- component -->
     <div class="flex min-h-screen items-center justify-center w-full">
         <div class="overflow-x-auto">
-            <h1 class="font-bold">Certificate List</h1>
+            <h1 class="font-bold">Signature List</h1>
             <div class="flex justify-between mb-3 items-center">
                 <a href="{{ route('certificates.create') }}"
                     class="ml-auto px-4 bg-black text-white py-2 rounded-md">Create </a>
