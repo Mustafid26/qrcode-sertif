@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('photo_profile');    
             $table->string('position');
-            $table->string('certificate_number');
-            $table->string('qr_code_path');
+            $table->string('certificate_number')->nullable();
+            $table->string('qr_code_path')->nullable();
             $table->timestamps();
         });
     }

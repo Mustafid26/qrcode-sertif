@@ -15,10 +15,11 @@
     <!-- component -->
     <div class="flex min-h-screen items-center justify-center w-full">
         <div class="overflow-x-auto">
+            <h1 class="font-bold">Signature List</h1>
             <div class="flex justify-between mb-3 items-center">
-                <h1 class="font-bold">Certificate List</h1>
                 <a href="{{ route('certificates.create') }}"
                     class="ml-auto px-4 bg-black text-white py-2 rounded-md">Create </a>
+                <a href="{{ route('participants.index') }}" class="ml-2 px-4 bg-blue-500 text-white py-2 rounded-md">Participants</a>
             </div>
             @if ($certificates->isEmpty())
                 <div class="text-center py-4">
@@ -40,10 +41,12 @@
                             <tr class="border-b border-blue-gray-200">
                                 <td class="py-3 px-4">{{ $certificate->name }}</td>
                                 <td class="py-3 px-4">{{ $certificate->email }}</td>
-                                <td class="py-3 px-4"><img src="{{ asset($certificate->photo_profile) }}" alt="Photo Profile"
-                                        width="100"></td>
-                                <td class="py-3 px-4"><img src="{{ asset($certificate->qr_code_path) }}" alt="QR Code"
-                                        width="100"></td>
+                                <td class="py-3 px-4">
+                                    <img src="{{ asset('storage/' . $certificate->photo_profile) }}" alt="Photo Profile" width="100">
+                                </td>
+                                <td class="py-3 px-4">
+                                    <img src="{{ asset($certificate->qr_code_path) }}" alt="QR Code" width="100">    
+                                </td>
                                 <td class="py-3 px-4">
                                     <a class="font-medium text-blue-600 hover:text-blue-800"
                                         href="{{ route('certificates.show', $certificate->certificate_number) }}">View</a>
@@ -60,6 +63,11 @@
                                     </form>
                                 </td>
                         @endforeach
+                        <tr>
+                            <td colspan="5" class="py-3 px-4">
+                                {{ $certificates->links() }}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             @endif
